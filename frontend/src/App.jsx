@@ -21,7 +21,6 @@ function App() {
   const editorRef = useRef(null);
   const reviewRef = useRef(null);
 
-  // Sample code suggestions
   const codeSuggestions = [
     {
       title: "React Component",
@@ -53,13 +52,13 @@ function App() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/ai/get-review", {
-        code,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/ai/get-review`,
+        { code }
+      );
       setReview(response.data);
       setActiveTab("review");
 
-      // Add to history
       setHistory((prev) => [
         {
           code,
@@ -81,9 +80,10 @@ function App() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/ai/optimize", {
-        code,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/ai/optimize`,
+        { code }
+      );
       setCode(response.data.optimizedCode);
       setReview(`## Optimization Suggestions\n${response.data.suggestions}`);
       setActiveTab("review");
